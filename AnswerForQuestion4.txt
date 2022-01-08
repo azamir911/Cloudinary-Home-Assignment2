@@ -1,0 +1,11 @@
+Currently, the application is using a local cache as "least recently used" (LRU) for the original image.
+In that case, we may do some things for the application:
+1. uploading more services for CNN using load balancing
+2. if the image does not exist in the cache, maybe it exists in another node, so we should check if it exists in the cluster and make sure not save it in another node (only one node should store it). if not, the node will execute and store it in the cache.
+3. clean up process shuold be run for removing image that not used for the last X time if more than 70% from the cache is full.
+4. if one of the cache nodes start to be huge then we should make sure to stop store new images in that cache and to use another node cache.
+5. if all the nodes cache start to be limited, then we should uploading more node to the cluster automatically (notification will be sent)
+
+Bonus: we may think to store the new images too in new cache, but this will definitely cause a lot of objects to be in the memory
+Bonus2: cdn should be considered to use too
+Note: the initial capacity of the LRU should be more than the defualt value (16)
